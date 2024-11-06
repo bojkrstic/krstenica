@@ -1,0 +1,32 @@
+package api
+
+import "krstenica/krstenica-v1/dao"
+
+type HramWo struct {
+	NazivHrama string `json:"naziv_hrama"`
+}
+type EparhijaWo struct {
+	NazivEparhije string `json:"naziv_eparhije"`
+}
+
+// mozda da se jos stavi na zilazu i u bazi status i comment
+type HramCrtResWo struct {
+	HramID     uint   `json:"hram_id"`
+	NazivHrama string `json:"naziv_hrama"`
+	CreatedAt  string `json:"created_at"`
+}
+
+type EparhijaCrtResWo struct {
+	EparhijaID    uint   `json:"eparhija_id"`
+	NazivEparhije string `json:"naziv_eparhije"`
+	CreatedAt     string `json:"created_at"`
+}
+
+func makeResultSysApplication(sysApp *dao.HramDo) *HramCrtResWo {
+	result := &HramCrtResWo{
+		HramID:     sysApp.HramID,
+		NazivHrama: sysApp.HramName,
+	}
+
+	return result
+}

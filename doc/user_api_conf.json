@@ -1,0 +1,11 @@
+{
+    "listen":":8080",
+    "accessControllAllowOrigin":"*",
+    "uriPrefix":"",
+    "sqlConn":{
+        "username":"postgres",
+        "password":"bokana",
+        "server":"my_postgres",
+        "database":"hrams"
+    }
+}

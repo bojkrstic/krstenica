@@ -1,0 +1,28 @@
+FROM golang:1.22.0-alpine3.18
+
+# Install necessary build tools, including GCC.
+# RUN apk add --no-cache gcc libc-dev
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy go mod and sum files
+COPY go.mod go.sum ./
+
+# Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed
+RUN go mod download
+
+# Copy the source code into the container
+COPY . .
+
+# Build the Go application
+RUN go build -o krstenica-api ./cmd
+
+# Expose port 8081 to the outside world
+EXPOSE 8080
+
+# Remove unnecessary files
+RUN rm -rf go.mod go.sum
+
+# Command to run the executable. 
+CMD ["./krstenica-api","--config-file-path=/app/config/user_api_conf_docker.json"]
