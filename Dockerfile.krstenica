@@ -25,4 +25,4 @@ EXPOSE 8080
 RUN rm -rf go.mod go.sum
 
 # Command to run the executable. 
-CMD ["./krstenica-api","--config-file-path=/app/config/user_api_conf_docker.json"]
+CMD ["./krstenica-api","--config-file-path=/app/config/krstenica_api_conf.json"]
