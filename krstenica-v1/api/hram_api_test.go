@@ -11,7 +11,7 @@ import (
 var testPathRegistry *apiutil.PathRegistry
 
 func init() {
-	confFilePath := "/home/krle/develop/horisen/Krstenica/Go/Krstenica/krstenica/doc/user_api_conf.json"
+	confFilePath := "/home/krle/develop/horisen/Krstenica-new/krstenica/config/krstenica_api_conf.json"
 
 	//need create pathregistry
 	pathRegistry := createPathRegistry(confFilePath)
