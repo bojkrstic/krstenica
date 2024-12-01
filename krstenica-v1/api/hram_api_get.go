@@ -4,9 +4,12 @@ import (
 	"krstenica/krstenica-v1/dao"
 	"log"
 	"net/http"
+
+	"krstenica/pkg/apiutil"
 )
 
 type HramGet struct {
+	apiutil.PathRegistry
 	ID int `path:"id"`
 }
 

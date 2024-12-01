@@ -36,7 +36,7 @@ func (ac HramAdd) Handle(w http.ResponseWriter, r *http.Request) (interface{}, e
 	if hram != nil {
 		return nil, ErrHramExistWithThisName
 	}
-	//create new hram with this email
+	//create new hram with this name
 	newHram := &dao.HramDo{
 		HramName:  reqData.NazivHrama,
 		CreatedAt: time.Now(),

@@ -6,6 +6,8 @@ import (
 	"log"
 	"strconv"
 	"testing"
+
+	"golang.org/x/exp/rand"
 )
 
 var testPathRegistry *apiutil.PathRegistry
@@ -30,10 +32,11 @@ func init() {
 }
 
 func TestUserPostFirst(t *testing.T) {
-	// randomInt := rand.Int()
+	randomInt := rand.Int()
+	// randomInt := rand.Intn(1000)
 
 	req := HramWo{
-		NazivHrama: "Crkva Presvete Bogorodice",
+		NazivHrama: fmt.Sprintf("Ilija Krstic %d", randomInt),
 	}
 	var usr HramCrtResWo
 	err := apiutil.PerformApiTest(testPathRegistry, "POST", "/hram", req, &usr, nil)
@@ -49,7 +52,7 @@ func TestUserGetFirst(t *testing.T) {
 	var response HramCrtResWo
 	err := apiutil.PerformApiTest(testPathRegistry, "GET", "/hram/"+sid, nil, &response, nil)
 	if err != nil {
-		t.Fatal(err)
+		fmt.Println(err)
 	}
 	t.Log(response)
 

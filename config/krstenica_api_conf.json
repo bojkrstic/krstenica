@@ -4,7 +4,7 @@
     "uriPrefix":"",
     "sqlConn":{
         "username":"postgres",
-        "password":"bojan",
+        "password":"bokana",
         "server":"localhost",
         "database":"hrams"
     }

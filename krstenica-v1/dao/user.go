@@ -10,7 +10,7 @@ func (c *HramDaoPostgresSql) CreateHram(user *HramDo) (uint, error) {
 	defer c.Disconect()
 
 	var id int
-	err := c.db.QueryRow("insert into public.hram (naziv_hrama, created_at) VALUES ($1, $2) returning hram_id", user.HramID, user.CreatedAt).Scan(&id)
+	err := c.db.QueryRow("insert into public.hram (naziv_hrama, created_at) VALUES ($1, $2) returning hram_id", user.HramName, user.CreatedAt).Scan(&id)
 	if err != nil {
 		log.Println(err)
 		return 0, err
@@ -24,7 +24,7 @@ func (c *HramDaoPostgresSql) GetHram(id uint) (*HramDo, error) {
 	defer c.Disconect()
 
 	var hram HramDo
-	err := c.db.QueryRow("select hram_id, naziv_hrama, created_at from public.hram where user_id = $1", id).Scan(&hram.HramID, &hram.HramName, &hram.CreatedAt)
+	err := c.db.QueryRow("select hram_id, naziv_hrama, created_at from public.hram where hram_id = $1", id).Scan(&hram.HramID, &hram.HramName, &hram.CreatedAt)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, ErrHramNotFound
