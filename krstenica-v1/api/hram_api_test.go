@@ -6,6 +6,7 @@ import (
 	"log"
 	"strconv"
 	"testing"
+	"time"
 
 	"golang.org/x/exp/rand"
 )
@@ -13,7 +14,7 @@ import (
 var testPathRegistry *apiutil.PathRegistry
 
 func init() {
-	confFilePath := "/home/krle/develop/horisen/Krstenica-new/krstenica/config/krstenica_api_conf.json"
+	confFilePath := "/home/bojan/develop/horisen/krstenica-new/krstenica/config/krstenica_api_conf.json"
 
 	//need create pathregistry
 	pathRegistry := createPathRegistry(confFilePath)
@@ -32,11 +33,12 @@ func init() {
 }
 
 func TestUserPostFirst(t *testing.T) {
-	randomInt := rand.Int()
-	// randomInt := rand.Intn(1000)
+	//randomInt := rand.Int()
+	rand.Seed(uint64(time.Now().UnixNano())) //first we need to set up seed , than we get random number
+	randomInt := rand.Intn(1000)
 
 	req := HramWo{
-		NazivHrama: fmt.Sprintf("Ilija Krstic %d", randomInt),
+		NazivHrama: fmt.Sprintf("Bojan Krstic %d", randomInt),
 	}
 	var usr HramCrtResWo
 	err := apiutil.PerformApiTest(testPathRegistry, "POST", "/hram", req, &usr, nil)
@@ -47,7 +49,7 @@ func TestUserPostFirst(t *testing.T) {
 }
 func TestUserGetFirst(t *testing.T) {
 	// randomInt := rand.Int()
-	sid := strconv.Itoa(int(1))
+	sid := strconv.Itoa(int(5))
 
 	var response HramCrtResWo
 	err := apiutil.PerformApiTest(testPathRegistry, "GET", "/hram/"+sid, nil, &response, nil)

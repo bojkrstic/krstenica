@@ -10,11 +10,11 @@ import (
 
 type HramGet struct {
 	apiutil.PathRegistry
-	ID int `path:"id"`
+	ID uint `path:"id"`
 }
 
 func (h *HramGet) Handle(w http.ResponseWriter, r *http.Request) (interface{}, error) {
-
+	log.Println("Handler called with ID:", h.ID)
 	//get hram from db, to create return json
 	setup, err := db.GetHram(uint(h.ID))
 	if err != nil {

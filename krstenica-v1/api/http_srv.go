@@ -39,9 +39,10 @@ func RunHTTPServer(configFilePath string) {
 
 func createPathRegistry(configFilePath string) *apiutil.PathRegistry {
 	pathRegistry, config := apiutil.NewPathRegistry(configFilePath)
+	log.Println("Prefix", config.URIPrefix)
 	// pathRegistry.Map(config.URIPrefix+"/users", apiutil.POST, new(UserAdd))
 	pathRegistry.Map(config.URIPrefix+"/hram", apiutil.POST, new(HramAdd))
-	pathRegistry.Map(config.URIPrefix+"/hram/{id}", apiutil.GET, new(HramGet))
+	pathRegistry.Map(config.URIPrefix+"/hram/$id", apiutil.GET, new(HramGet))
 	// pathRegistry.Map(config.URIPrefix+"/hram/$id", apiutil.PUT, new(HramUpdate))
 	// pathRegistry.Map(config.URIPrefix+"/hram/$id", apiutil.DELETE, new(HramDelete))
 	//eparhija

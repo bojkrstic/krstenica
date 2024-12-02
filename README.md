@@ -77,4 +77,9 @@ Indexes:
 6. Da bi napravio izvrsnu verziju apija u folderu gde se nalazi main.go pokrne se
 - go build -o krstenica-api
 napravi se krstenica-api.go izvrsna datoka binarna
+7. Ovaj deo vec imas u 3. 
+Zatim mora da se pokrene sam api ali mora d a se nalazis u folderu gde je main.go, a to je folder /home/krle/develop/horisen/Krstenica-new/krstenica/cmd
+- ./krstenica-api --config-file-path=/home/krle/develop/horisen/Krstenica-new/krstenica/config/krstenica_api_conf.json
+ili skraceno ako se nalazimo u folderu vec
+- ./krstenica-api --config-file-path=../config/krstenica_api_conf.json
 

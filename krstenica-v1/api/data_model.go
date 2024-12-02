@@ -26,6 +26,7 @@ func makeResultSysApplication(sysApp *dao.HramDo) *HramCrtResWo {
 	result := &HramCrtResWo{
 		HramID:     sysApp.HramID,
 		NazivHrama: sysApp.HramName,
+		CreatedAt:  sysApp.CreatedAt.String(),
 	}
 
 	return result

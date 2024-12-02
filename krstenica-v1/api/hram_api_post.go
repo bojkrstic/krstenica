@@ -12,7 +12,7 @@ import (
 type HramAdd struct {
 }
 
-func (ac HramAdd) Handle(w http.ResponseWriter, r *http.Request) (interface{}, error) {
+func (ac *HramAdd) Handle(w http.ResponseWriter, r *http.Request) (interface{}, error) {
 	//input
 	var reqData HramWo
 	err := apiutil.GetRequestBody(r, &reqData)
