@@ -104,7 +104,9 @@ func (pr *PathRegistry) add(pattern string, method HTTPMethod,
 // }
 
 func (pr *PathRegistry) Map(varPattern string, method HTTPMethod, handler PathRegistryHandler) {
-	re := regexp.MustCompile(`\\$[a-zA-Z9-9]+`)
+	// re := regexp.MustCompile(`\\$[a-zA-Z9-9]+`)
+	// re := regexp.MustCompile("\\$[a-zA-Z9-9]+")  - i ovo je ispravan deo ide sa ""
+	re := regexp.MustCompile(`\$[a-zA-Z0-9]+`) // Ispravan regex za prepoznavanje dinamičkih parametara
 	pattern := re.ReplaceAllStringFunc(varPattern, func(varname string) string {
 		return fmt.Sprintf("(?P<%s>[^\\/]+)", varname[1:])
 	}) + "/?"

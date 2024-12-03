@@ -49,7 +49,7 @@ func TestUserPostFirst(t *testing.T) {
 }
 func TestUserGetFirst(t *testing.T) {
 	// randomInt := rand.Int()
-	sid := strconv.Itoa(int(5))
+	sid := strconv.Itoa(int(9))
 
 	var response HramCrtResWo
 	err := apiutil.PerformApiTest(testPathRegistry, "GET", "/hram/"+sid, nil, &response, nil)

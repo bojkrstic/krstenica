@@ -83,3 +83,14 @@ Zatim mora da se pokrene sam api ali mora d a se nalazis u folderu gde je main.g
 ili skraceno ako se nalazimo u folderu vec
 - ./krstenica-api --config-file-path=../config/krstenica_api_conf.json
 
+
+
+8. Problem sa regularnim izrazom u api_path_registry.go
+Naime problem je bio jer nisam mogao dobro da preuzmem parametar, Problem se resava na dva nacina.
+- 1. Prvi nacin je da se umesto literala `` ubaci "" i onda je sve ok, jer se u tom slucaju prepozna regularni izraz i $id
+- 2. Drugi nacin da se promeni sam regularni izraz sa: 
+        re := regexp.MustCompile(`\$[a-zA-Z0-9]+`) // Ispravan regex za prepoznavanje dinamičkih parametara
+Ovo je pravilo problem: 
+        re := regexp.MustCompile(`\\$[a-zA-Z9-9]+`)
+        re := regexp.MustCompile("\\$[a-zA-Z9-9]+")  Ovo je ispravan isto da ide sa "".
+        
