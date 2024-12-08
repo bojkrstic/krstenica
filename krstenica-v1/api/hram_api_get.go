@@ -23,6 +23,10 @@ func (h *HramGet) Handle(w http.ResponseWriter, r *http.Request) (interface{}, e
 			return nil, ErrHramNotFound
 		}
 	}
+	if setup.Status == "deleted" {
+		return nil, ErrHramAlreadyDeleted
+	}
+
 	res := makeResultSysApplication(setup)
 
 	// dlogger.Log(lrec)

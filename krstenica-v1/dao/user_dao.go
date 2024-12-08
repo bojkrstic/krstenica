@@ -11,6 +11,7 @@ import (
 type UserDao interface {
 	CreateHram(user *HramDo) (uint, error)
 	GetHram(id uint) (*HramDo, error)
+	DeleteHram(id uint) (*HramDo, error)
 	GetHramByName(name string) (*HramDo, error)
 }
 

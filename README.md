@@ -94,3 +94,21 @@ Ovo je pravilo problem:
         re := regexp.MustCompile(`\\$[a-zA-Z9-9]+`)
         re := regexp.MustCompile("\\$[a-zA-Z9-9]+")  Ovo je ispravan isto da ide sa "".
         
+
+9. Citanje logova
+- docker logs krstenica-db
+10. Citanje volumena
+- docker volume ls
+11. Brisanje volumena
+- docker-compose down --volumes
+12. Dodavanje polja u tableli
+- ALTER TABLE hram ADD COLUMN IF NOT EXISTS status VARCHAR(50);
+to se dodaje u init.sql fajlu(recimo init-hram-db.sql)
+13. Ovako se dodaje ako se koristi init.sql
+DO $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'hram') THEN
+        -- Dodaj kolonu 'status' ako ne postoji
+        ALTER TABLE hram ADD COLUMN IF NOT EXISTS status VARCHAR(50);
+    END IF;
+END $$;

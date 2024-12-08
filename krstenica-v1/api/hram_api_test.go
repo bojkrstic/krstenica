@@ -59,3 +59,16 @@ func TestUserGetFirst(t *testing.T) {
 	t.Log(response)
 
 }
+
+func TestUserDelete(t *testing.T) {
+	// randomInt := rand.Int()
+	sid := strconv.Itoa(int(9))
+
+	var response HramCrtResWo
+	err := apiutil.PerformApiTest(testPathRegistry, "DELETE", "/hram/"+sid, nil, &response, nil)
+	if err != nil {
+		fmt.Println(err)
+	}
+	t.Log(response)
+
+}

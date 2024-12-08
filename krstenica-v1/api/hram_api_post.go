@@ -29,7 +29,7 @@ func (ac *HramAdd) Handle(w http.ResponseWriter, r *http.Request) (interface{}, 
 	if err != nil {
 		if err != dao.ErrHramNotFound {
 			log.Println(err)
-			return nil, err
+			//return nil, err
 		}
 	}
 
@@ -39,6 +39,7 @@ func (ac *HramAdd) Handle(w http.ResponseWriter, r *http.Request) (interface{}, 
 	//create new hram with this name
 	newHram := &dao.HramDo{
 		HramName:  reqData.NazivHrama,
+		Status:    "active",
 		CreatedAt: time.Now(),
 	}
 	//create new hram
@@ -59,6 +60,7 @@ func (ac *HramAdd) Handle(w http.ResponseWriter, r *http.Request) (interface{}, 
 	resWo := &HramCrtResWo{
 		HramID:     mainUser.HramID,
 		NazivHrama: mainUser.HramName,
+		Status:     mainUser.Status,
 		CreatedAt:  mainUser.CreatedAt.Format("2006-01-02 15:15:05"),
 	}
 

@@ -11,5 +11,6 @@ var (
 	ErrHramExistWithThisName     = apiutil.NewError(http.StatusBadRequest, "HRAM_EXIST", "Hram sa ovim imenom postoji")
 	ErrEparhijaExistWithThisName = apiutil.NewError(http.StatusBadRequest, "EPARHIJA_EXIST", "Eparhija sa ovim imenom postoji")
 	ErrHramNotFound              = apiutil.NewError(http.StatusNotFound, "HRAM_NOT_FOUND", "Hram nije nadjen")
+	ErrHramAlreadyDeleted        = apiutil.NewError(http.StatusNotFound, "HRAM_ALREADY_DELETED", "Hram je vec obrisan")
 	ErrEparhijaNotFound          = apiutil.NewError(http.StatusNotFound, "EPARHIJA_NOT_FOUND", "Eparhija nije nadjena")
 )
