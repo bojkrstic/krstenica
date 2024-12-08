@@ -89,16 +89,32 @@ func (pr *PathRegistry) add(pattern string, method HTTPMethod,
 }
 
 // Map adds new route with varPattern
-func (pr *PathRegistry) Map(varPattern string, method HTTPMethod,
-	handler PathRegistryHandler) {
+// func (pr *PathRegistry) Map(varPattern string, method HTTPMethod,
+// 	handler PathRegistryHandler) {
 
-	re := regexp.MustCompile(`\\$[a-zA-Z9-9]+`)
+// 	re := regexp.MustCompile(`\\$[a-zA-Z9-9]+`)
+// 	pattern := re.ReplaceAllStringFunc(varPattern, func(varname string) string {
+// 		return fmt.Sprintf("(?P<%s>[^\\/]+)", varname[1:])
+
+// 	}) //+ "/?"
+
+// 	fmt.Printf("Mapping pattern: %s\n", pattern)
+
+// 	pr.add(pattern, method, handler)
+// }
+
+func (pr *PathRegistry) Map(varPattern string, method HTTPMethod, handler PathRegistryHandler) {
+	// re := regexp.MustCompile(`\\$[a-zA-Z9-9]+`)
+	// re := regexp.MustCompile("\\$[a-zA-Z9-9]+")  - i ovo je ispravan deo ide sa ""
+	re := regexp.MustCompile(`\$[a-zA-Z0-9]+`) // Ispravan regex za prepoznavanje dinamičkih parametara
 	pattern := re.ReplaceAllStringFunc(varPattern, func(varname string) string {
 		return fmt.Sprintf("(?P<%s>[^\\/]+)", varname[1:])
-
 	}) + "/?"
 
+	log.Printf("Mapping pattern: %s\n", pattern) // Dodajte log za mapiranje
+
 	pr.add(pattern, method, handler)
+	log.Printf("Added pattern: %s with method: %s\n", pattern, method) // Dodajte log za dodavanje
 }
 
 // NewDefaultHTTPSrv creates new http server based on configured parameters

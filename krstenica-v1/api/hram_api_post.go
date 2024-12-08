@@ -12,7 +12,7 @@ import (
 type HramAdd struct {
 }
 
-func (ac HramAdd) Handle(w http.ResponseWriter, r *http.Request) (interface{}, error) {
+func (ac *HramAdd) Handle(w http.ResponseWriter, r *http.Request) (interface{}, error) {
 	//input
 	var reqData HramWo
 	err := apiutil.GetRequestBody(r, &reqData)
@@ -29,16 +29,17 @@ func (ac HramAdd) Handle(w http.ResponseWriter, r *http.Request) (interface{}, e
 	if err != nil {
 		if err != dao.ErrHramNotFound {
 			log.Println(err)
-			return nil, err
+			//return nil, err
 		}
 	}
 
 	if hram != nil {
 		return nil, ErrHramExistWithThisName
 	}
-	//create new hram with this email
+	//create new hram with this name
 	newHram := &dao.HramDo{
 		HramName:  reqData.NazivHrama,
+		Status:    "active",
 		CreatedAt: time.Now(),
 	}
 	//create new hram
@@ -59,6 +60,7 @@ func (ac HramAdd) Handle(w http.ResponseWriter, r *http.Request) (interface{}, e
 	resWo := &HramCrtResWo{
 		HramID:     mainUser.HramID,
 		NazivHrama: mainUser.HramName,
+		Status:     mainUser.Status,
 		CreatedAt:  mainUser.CreatedAt.Format("2006-01-02 15:15:05"),
 	}
 

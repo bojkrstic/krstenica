@@ -1,14 +1,16 @@
 version: '3.8'
 
 services:
-  postgres:
+  krstenica-db:
     image: postgres:latest
-    container_name: my_postgres
+    container_name: krstenica-db
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: bokana
     volumes:
       - ./init-hram-db.sql:/docker-entrypoint-initdb.d/init.sql
-      - postgres_data:/var/lib/postgresql/data
+      - krstenica_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
 volumes:
-  postgres_data:
+  krstenica_data:

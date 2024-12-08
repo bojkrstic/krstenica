@@ -2,12 +2,16 @@ package dao
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
+
+	_ "github.com/lib/pq"
 )
 
 type UserDao interface {
 	CreateHram(user *HramDo) (uint, error)
 	GetHram(id uint) (*HramDo, error)
+	DeleteHram(id uint) (*HramDo, error)
 	GetHramByName(name string) (*HramDo, error)
 }
 
@@ -23,7 +27,8 @@ func NewHramDao(connectionString string) UserDao {
 	}
 }
 
-func (u HramDaoPostgresSql) Connect() error {
+func (u *HramDaoPostgresSql) Connect() error {
+	fmt.Println("Connection string **************************", u.connString)
 	db, err := sql.Open("postgres", u.connString)
 	if err != nil {
 		log.Println(err)

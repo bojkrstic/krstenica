@@ -117,11 +117,11 @@ func createHTTPRequest(addr, method, uri, token string,
 		req.Header.Add("Authorization", "Bearer "+token)
 	}
 
-	authHost := os.Getenv("TANE_HOST_TEST")
+	authHost := os.Getenv("KRLE_HOST_TEST")
 	if authHost != "" {
 		req.Host = authHost
 	} else {
-		req.Host = "api.tane.dev"
+		req.Host = "api.krle.dev"
 	}
 
 	req.Header.Set("Host", req.Host)
