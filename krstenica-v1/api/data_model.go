@@ -5,6 +5,9 @@ import "krstenica/krstenica-v1/dao"
 type HramWo struct {
 	NazivHrama string `json:"naziv_hrama"`
 }
+type HramUpdateData struct {
+	NazivHrama *string `json:"naziv_hrama"`
+}
 type EparhijaWo struct {
 	NazivEparhije string `json:"naziv_eparhije"`
 }
