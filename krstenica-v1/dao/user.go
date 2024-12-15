@@ -3,7 +3,6 @@ package dao
 import (
 	"database/sql"
 	"fmt"
-	"krstenica/pkg/apiutil"
 	"log"
 )
 
@@ -59,42 +58,6 @@ func (c *HramDaoPostgresSql) UpdateHram(id uint, update map[string]interface{}) 
 	}
 
 	return nil
-
-}
-
-func (c *HramDaoPostgresSql) ListHram(all bool, page, count int,
-	sort []*apiutil.SortOptions, filter map[apiutil.FilterKey][]string) ([]*HramDo, int, error) {
-	c.Connect()
-	defer c.Disconect()
-
-	query := `SELECT COUNT(*) FROM public.hram`
-	var total int
-	err := c.db.QueryRow(query).Scan(&total)
-	if err != nil {
-		return nil, 0, err
-	}
-	deleteStatus := "deleted"
-
-	var hrams []*HramDo
-	rows, err := c.db.Query("select hram_id, naziv_hrama, status, created_at from public.hram where status!=$1", deleteStatus)
-	if err != nil {
-		log.Println(err)
-		return nil, 0, err
-	}
-	for rows.Next() {
-		var hram HramDo
-		err = rows.Scan(&hram.HramID, &hram.HramName, &hram.Status, &hram.CreatedAt)
-		if err != nil {
-			log.Println(err)
-			return nil, 0, err
-		}
-		hrams = append(hrams, &hram)
-	}
-	if len(hrams) == 0 {
-		log.Println("No records found for the given page and pageSize")
-	}
-
-	return hrams, total, nil
 
 }
 

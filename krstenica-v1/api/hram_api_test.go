@@ -83,6 +83,17 @@ func TestUserLists(t *testing.T) {
 	t.Log(response)
 
 }
+func TestUserListsOrderBy(t *testing.T) {
+	sortURLQuery := "sort=hramId"
+
+	var response HramCrtResWo
+	err := apiutil.PerformApiTest(testPathRegistry, "GET", "/hram?"+sortURLQuery, nil, &response, nil)
+	if err != nil {
+		fmt.Println(err)
+	}
+	t.Log(response)
+
+}
 
 func TestUserDelete(t *testing.T) {
 	// randomInt := rand.Int()
