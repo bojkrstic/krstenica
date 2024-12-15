@@ -26,6 +26,16 @@ type ErrorItem struct {
 	Object      interface{} `json:"object,omitempty"`
 }
 
+// NewValidationError is validation data error
+func NewValidationError(items []*ErrorItem) *Error {
+	return &Error{
+		Code:     "INVALID-DATA",
+		Message:  "Input data validation failed",
+		HTTPCode: http.StatusBadRequest,
+		Items:    items,
+	}
+}
+
 func (e ErrorWO) Error() string {
 	return fmt.Sprintf("CODE: %s,MSG: %s, DESC: %s,Items: %s", e.Code, e.Message, e.Description, e.Items)
 }
@@ -125,4 +135,10 @@ var (
 	// ErrRequestBodyDecoding is error returned when data in request body can not be decoded
 	ErrRequestBodyDecoding = NewError(http.StatusBadRequest,
 		"BAD_REQUEST_BODY_FORMAT", "Unable to decode request body")
+	//ErrBadPageNumber is error returned when page_number is less than 1
+	ErrBadPageNumber = NewError(http.StatusBadRequest,
+		"BAD_PARAM_PAGE_NUMBER", "Bad parameter 'page_number': value must be greather than 0")
+	//ErrBadPageSize is error returned when page_size is less than 1
+	ErrBadPageSize = NewError(http.StatusBadRequest,
+		"BAD_PARAM_PAGE_SIZE", "Bad parameter 'page_size': value : must be greather than 0")
 )

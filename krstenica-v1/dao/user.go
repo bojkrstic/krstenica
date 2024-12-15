@@ -3,6 +3,7 @@ package dao
 import (
 	"database/sql"
 	"fmt"
+	"krstenica/pkg/apiutil"
 	"log"
 )
 
@@ -18,6 +19,83 @@ func (c *HramDaoPostgresSql) CreateHram(user *HramDo) (uint, error) {
 	}
 
 	return uint(id), nil
+}
+
+func (c *HramDaoPostgresSql) UpdateHram(id uint, update map[string]interface{}) error {
+	c.Connect()
+	defer c.Disconect()
+	args := []interface{}{}
+	ind := 1
+	//formiranje querija
+	query := fmt.Sprintf("UPDATE public.hram SET")
+
+	newStatus, ok := update["status"]
+	if ok {
+		args = append(args, newStatus)
+		query += fmt.Sprintf(" status=$%d,", ind)
+		ind++
+	}
+	nazivHrama, ok := update["naziv_hrama"]
+	if ok {
+		args = append(args, nazivHrama)
+		query += fmt.Sprintf(" naziv_hrama=$%d,", ind)
+		ind++
+	}
+	args = append(args, id)
+
+	if len(args) == 0 {
+		return fmt.Errorf("Nema polja za azuriranje")
+	}
+
+	query = query[:len(query)-1]
+	query += fmt.Sprintf(" WHERE hram_id = $%d", ind)
+	log.Println(ind)
+	log.Println(query)
+	log.Println(args)
+	_, err := c.db.Exec(query, args...)
+	if err != nil {
+		log.Println(err)
+		return ErrHramDubleValue
+	}
+
+	return nil
+
+}
+
+func (c *HramDaoPostgresSql) ListHram(all bool, page, count int,
+	sort []*apiutil.SortOptions, filter map[apiutil.FilterKey][]string) ([]*HramDo, int, error) {
+	c.Connect()
+	defer c.Disconect()
+
+	query := `SELECT COUNT(*) FROM public.hram`
+	var total int
+	err := c.db.QueryRow(query).Scan(&total)
+	if err != nil {
+		return nil, 0, err
+	}
+	deleteStatus := "deleted"
+
+	var hrams []*HramDo
+	rows, err := c.db.Query("select hram_id, naziv_hrama, status, created_at from public.hram where status!=$1", deleteStatus)
+	if err != nil {
+		log.Println(err)
+		return nil, 0, err
+	}
+	for rows.Next() {
+		var hram HramDo
+		err = rows.Scan(&hram.HramID, &hram.HramName, &hram.Status, &hram.CreatedAt)
+		if err != nil {
+			log.Println(err)
+			return nil, 0, err
+		}
+		hrams = append(hrams, &hram)
+	}
+	if len(hrams) == 0 {
+		log.Println("No records found for the given page and pageSize")
+	}
+
+	return hrams, total, nil
+
 }
 
 func (c *HramDaoPostgresSql) GetHram(id uint) (*HramDo, error) {

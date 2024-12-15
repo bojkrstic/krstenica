@@ -12,7 +12,7 @@ type HramUpdate struct {
 }
 
 // Handle Update
-func (h *HramUpdate) Handle(w http.ResponseWriter, r *http.Request) (interface{}, error) {
+func (ac *HramUpdate) Handle(w http.ResponseWriter, r *http.Request) (interface{}, error) {
 
 	var updateData HramUpdateData
 	err := apiutil.GetRequestBody(r, &updateData)
@@ -31,5 +31,34 @@ func (h *HramUpdate) Handle(w http.ResponseWriter, r *http.Request) (interface{}
 	}
 
 	//validate
-	return nil, nil
+
+	update, err := updateData.Validate(ac.ID)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	//update
+	err = db.UpdateHram(ac.ID, update)
+	if err != nil {
+		log.Println(err)
+		return nil, apiutil.NewIntError(err)
+	}
+
+	// get hram from db, to create return json
+	mainUser, err := db.GetHram(ac.ID)
+	if err != nil {
+		log.Println(err)
+		if err == dao.ErrHramNotFound {
+			return nil, ErrHramNotFound
+		}
+	}
+	resWo := &HramCrtResWo{
+		HramID:     mainUser.HramID,
+		NazivHrama: mainUser.HramName,
+		Status:     mainUser.Status,
+		CreatedAt:  mainUser.CreatedAt.Format("2006-01-02 15:15:05"),
+	}
+
+	return resWo, nil
 }

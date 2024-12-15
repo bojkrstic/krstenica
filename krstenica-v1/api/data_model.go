@@ -7,9 +7,14 @@ type HramWo struct {
 }
 type HramUpdateData struct {
 	NazivHrama *string `json:"naziv_hrama"`
+	Status     *string `json:"status"`
 }
 type EparhijaWo struct {
 	NazivEparhije string `json:"naziv_eparhije"`
+}
+
+type EparhijaUpdateWo struct {
+	NazivEparhije *string `json:"naziv_eparhije"`
 }
 
 // mozda da se jos stavi na zilazu i u bazi status i comment

@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"krstenica/pkg/apiutil"
 	"log"
+	"os"
+	"path/filepath"
 	"strconv"
 	"testing"
 	"time"
@@ -14,8 +16,17 @@ import (
 var testPathRegistry *apiutil.PathRegistry
 
 func init() {
-	confFilePath := "/home/bojan/develop/horisen/krstenica-new/krstenica/config/krstenica_api_conf.json"
-
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		fmt.Println("Greška prilikom dobijanja home direktorijuma:", err)
+		return
+	}
+	confFilePath := filepath.Join(homeDir, "develop", "horisen", "Krstenica-new", "krstenica", "config", "krstenica_api_conf.json")
+	// Ispis putanje
+	fmt.Println("Putanja do konfiguracione datoteke:", confFilePath)
+	// confFilePath := "/home/bojan/develop/horisen/krstenica-new/krstenica/config/krstenica_api_conf.json"
+	// confFilePath := "/home/krle/develop/horisen/krstenica-new/krstenica/config/krstenica_api_conf.json"
+	// confFilePath := "$HOME/develop/horisen/Krstenica-new/krstenica/config/krstenica_api_conf.json"
 	//need create pathregistry
 	pathRegistry := createPathRegistry(confFilePath)
 	c, err := pathRegistry.Config.GetConf()
@@ -60,12 +71,49 @@ func TestUserGetFirst(t *testing.T) {
 
 }
 
+func TestUserLists(t *testing.T) {
+	// randomInt := rand.Int()
+	//sid := strconv.Itoa(int(9))
+
+	var response HramCrtResWo
+	err := apiutil.PerformApiTest(testPathRegistry, "GET", "/hram", nil, &response, nil)
+	if err != nil {
+		fmt.Println(err)
+	}
+	t.Log(response)
+
+}
+
 func TestUserDelete(t *testing.T) {
 	// randomInt := rand.Int()
-	sid := strconv.Itoa(int(9))
+	sid := strconv.Itoa(int(5))
 
 	var response HramCrtResWo
 	err := apiutil.PerformApiTest(testPathRegistry, "DELETE", "/hram/"+sid, nil, &response, nil)
+	if err != nil {
+		fmt.Println(err)
+	}
+	t.Log(response)
+
+}
+
+func TestUserUpdate(t *testing.T) {
+	// randomInt := rand.Int()
+	sid := strconv.Itoa(int(2))
+	nazivHrama := "Sveti Sava"
+	status := "active"
+	updateData := HramUpdateData{
+		NazivHrama: &nazivHrama,
+		Status:     &status,
+	}
+
+	// updateData := map[string]interface{}{
+	// 	"status":      "active",
+	// 	"naziv_hrama": "Sveti Sava",
+	// }
+
+	var response HramCrtResWo
+	err := apiutil.PerformApiTest(testPathRegistry, "PUT", "/hram/"+sid, &updateData, &response, nil)
 	if err != nil {
 		fmt.Println(err)
 	}

@@ -3,6 +3,7 @@ package dao
 import (
 	"database/sql"
 	"fmt"
+	"krstenica/pkg/apiutil"
 	"log"
 
 	_ "github.com/lib/pq"
@@ -13,6 +14,9 @@ type UserDao interface {
 	GetHram(id uint) (*HramDo, error)
 	DeleteHram(id uint) (*HramDo, error)
 	GetHramByName(name string) (*HramDo, error)
+	UpdateHram(id uint, update map[string]interface{}) error
+	ListHram(all bool, page, count int,
+		sort []*apiutil.SortOptions, filter map[apiutil.FilterKey][]string) ([]*HramDo, int, error)
 }
 
 // here we have connection to PostgresSql
